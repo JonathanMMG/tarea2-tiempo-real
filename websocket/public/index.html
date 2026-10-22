@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de pedidos - WebSocket</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <header>
+        <h1>Estado de mis pedidos <span class="etiqueta websocket">WebSocket</span></h1>
+        <p>Una sola conexión abierta: el servidor envía el evento <code>pedido:actualizado</code> cuando algo cambia.</p>
+    </header>
+
+    <div class="grid">
+        <div class="tarjeta">
+            <div class="controles">
+                Conexión: <span id="estadoConexion" class="conexion off">Desconectado</span>
+                <span id="transporte"></span>
+                <button id="conectar">Conectar</button>
+                <button id="desconectar" class="secundario">Desconectar</button>
+            </div>
+            <table>
+                <thead><tr><th>Pedido</th><th>Cliente</th><th>Producto</th><th>Estado</th><th>Actualizado</th></tr></thead>
+                <tbody id="tabla"></tbody>
+            </table>
+            <div class="log" id="log"></div>
+        </div>
+
+        <div class="tarjeta">
+            <h2>Métricas observadas</h2>
+            <div class="metricas">
+                <div class="metrica"><span>Conexiones abiertas</span><b id="mConexiones">0</b></div>
+                <div class="metrica"><span>Mensajes recibidos</span><b id="mRecibidos">0</b></div>
+                <div class="metrica"><span>Solicitudes periódicas</span><b>0</b></div>
+                <div class="metrica"><span>Mensajes innecesarios</span><b>0 %</b></div>
+                <div class="metrica"><span>Cambios recibidos</span><b id="mCambios">0</b></div>
+                <div class="metrica"><span>Retraso último cambio</span><b id="mUltimo">-</b></div>
+                <div class="metrica"><span>Retraso promedio</span><b id="mPromedio">-</b></div>
+                <div class="metrica"><span>Bytes recibidos</span><b id="mBytes">0</b></div>
+            </div>
+            <p style="font-size:13px;color:#52606d">El retraso es el tiempo entre que el servidor cambió
+               el pedido (<code>actualizadoEn</code>) y el momento en que esta pantalla lo mostró.</p>
+            <p><a href="admin.html" target="_blank">Abrir panel de administración</a></p>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="cliente-ws.js"></script>
+</body>
+</html>
