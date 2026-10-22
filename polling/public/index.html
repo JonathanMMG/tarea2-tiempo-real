@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de pedidos - REST + Polling</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <header>
+        <h1>Estado de mis pedidos <span class="etiqueta polling">REST + Polling</span></h1>
+        <p>El navegador pregunta al servidor cada cierto tiempo: <code>GET /api/pedidos?desde=version</code></p>
+    </header>
+
+    <div class="grid">
+        <div class="tarjeta">
+            <div class="controles">
+                <label>Intervalo de consulta:
+                    <select id="intervalo">
+                        <option value="1000">1 s</option>
+                        <option value="2000" selected>2 s</option>
+                        <option value="5000">5 s</option>
+                        <option value="10000">10 s</option>
+                    </select>
+                </label>
+                <button id="iniciar">Iniciar polling</button>
+                <button id="detener" class="secundario">Detener</button>
+                <span id="estadoPolling" class="conexion off">Detenido</span>
+            </div>
+            <table>
+                <thead><tr><th>Pedido</th><th>Cliente</th><th>Producto</th><th>Estado</th><th>Actualizado</th></tr></thead>
+                <tbody id="tabla"></tbody>
+            </table>
+            <div class="log" id="log"></div>
+        </div>
+
+        <div class="tarjeta">
+            <h2>Métricas observadas</h2>
+            <div class="metricas">
+                <div class="metrica"><span>Solicitudes HTTP enviadas</span><b id="mSolicitudes">0</b></div>
+                <div class="metrica"><span>Respuestas con cambios (200)</span><b id="mCon">0</b></div>
+                <div class="metrica"><span>Respuestas sin cambios (204)</span><b id="mSin">0</b></div>
+                <div class="metrica"><span>Solicitudes innecesarias</span><b id="mInnecesarias">0 %</b></div>
+                <div class="metrica"><span>Cambios detectados</span><b id="mCambios">0</b></div>
+                <div class="metrica"><span>Retraso último cambio</span><b id="mUltimo">-</b></div>
+                <div class="metrica"><span>Retraso promedio</span><b id="mPromedio">-</b></div>
+                <div class="metrica"><span>Bytes recibidos</span><b id="mBytes">0</b></div>
+            </div>
+            <p style="font-size:13px;color:#52606d">El retraso es el tiempo entre que el servidor cambió
+               el pedido (<code>actualizadoEn</code>) y el momento en que esta pantalla lo mostró.</p>
+            <p><a href="admin.html" target="_blank">Abrir panel de administración</a></p>
+        </div>
+    </div>
+
+    <script src="cliente-polling.js"></script>
+</body>
+</html>
