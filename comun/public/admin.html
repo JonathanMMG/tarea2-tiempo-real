@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de pedidos</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <header>
+        <h1>Panel de administración (restaurante)</h1>
+        <p>Desde aquí se cambian los estados. El cliente debe enterarse del cambio:
+           <b id="mecanismo"></b></p>
+    </header>
+
+    <div class="tarjeta">
+        <div class="controles">
+            <label>Simulación automática: cambiar un pedido cada
+                <select id="segundos">
+                    <option value="5">5 s</option>
+                    <option value="10" selected>10 s</option>
+                    <option value="20">20 s</option>
+                </select>
+            </label>
+            <button id="iniciarSim">Iniciar simulación</button>
+            <button id="detenerSim" class="secundario">Detener</button>
+            <button id="reiniciar" class="secundario">Reiniciar datos y contadores</button>
+            <span id="msg"></span>
+        </div>
+        <table>
+            <thead><tr><th>Pedido</th><th>Cliente</th><th>Producto</th><th>Estado</th><th>Acción</th></tr></thead>
+            <tbody id="tabla"></tbody>
+        </table>
+    </div>
+
+    <script>
+        // El panel solo envía cambios (PUT). No participa en la comparación.
+        const puerto = location.port;
+        document.getElementById('mecanismo').textContent =
+            puerto === '3001' ? 'REST + Polling (puerto 3001)' : 'WebSocket (puerto 3002)';
+        const msg = (t) => document.getElementById('msg').textContent = t;
+        let estados = [];
+
+        async function cargar() {
+            estados = await (await fetch('/api/estados')).json();
+            const { pedidos } = await (await fetch('/api/pedidos?admin=1')).json();
+            document.getElementById('tabla').innerHTML = pedidos.map(p => `
+                <tr>
+                    <td>#${p.id}</td><td>${p.cliente}</td><td>${p.producto}</td>
+                    <td><select data-id="${p.id}">
+                        ${estados.map(e => `<option ${e === p.estado ? 'selected' : ''}>${e}</option>`).join('')}
+                    </select></td>
+                    <td><button data-avanzar="${p.id}">Avanzar estado</button></td>
+                </tr>`).join('');
+        }
+
+        async function cambiar(id, estado) {
+            const r = await fetch(`/api/pedidos/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(estado ? { estado } : {})
+            });
+            const d = await r.json();
+            msg(`Pedido #${d.pedido.id} -> ${d.pedido.estado} (${new Date().toLocaleTimeString()})`);
+            cargar();
+        }
+
+        document.getElementById('tabla').addEventListener('change', e => {
+            if (e.target.dataset.id) cambiar(e.target.dataset.id, e.target.value);
+        });
+        document.getElementById('tabla').addEventListener('click', e => {
+            if (e.target.dataset.avanzar) cambiar(e.target.dataset.avanzar);
+        });
+
+        async function simulacion(segundos) {
+            const r = await fetch('/api/simulacion', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ segundos })
+            });
+            msg('Simulación: ' + (await r.json()).simulacion);
+        }
+        document.getElementById('iniciarSim').onclick = () =>
+            simulacion(Number(document.getElementById('segundos').value));
+        document.getElementById('detenerSim').onclick = () => simulacion(0);
+        document.getElementById('reiniciar').onclick = async () => {
+            await fetch('/api/reiniciar', { method: 'POST' });
+            msg('Datos y contadores reiniciados'); cargar();
+        };
+
+        cargar();
+        // Refresca la vista del administrador (sin interrumpir si está eligiendo un estado)
+        setInterval(() => { if (document.activeElement.tagName !== 'SELECT') cargar(); }, 3000);
+    </script>
+</body>
+</html>
