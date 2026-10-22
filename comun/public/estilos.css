@@ -1,0 +1,51 @@
+/* comun/public/estilos.css - estilos compartidos por ambas implementaciones */
+* { box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    margin: 0; padding: 20px;
+    background: #f4f6f8; color: #1f2933;
+}
+header { margin-bottom: 16px; }
+header h1 { margin: 0 0 4px; font-size: 22px; }
+header p { margin: 0; color: #52606d; }
+.etiqueta { display: inline-block; padding: 3px 10px; border-radius: 12px; color: #fff; font-size: 13px; font-weight: 600; }
+.polling { background: #d9480f; }
+.websocket { background: #2b8a3e; }
+
+.grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+.tarjeta { background: #fff; border-radius: 10px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.tarjeta h2 { margin: 0 0 12px; font-size: 16px; }
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 8px; border-bottom: 1px solid #e4e7eb; }
+th { color: #52606d; font-weight: 600; }
+tr.cambio { animation: resalte 1.5s ease-out; }
+@keyframes resalte { from { background: #fff3bf; } to { background: transparent; } }
+
+.estado { padding: 3px 8px; border-radius: 6px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.e-Recibido { background: #e7f5ff; color: #1864ab; }
+.e-En-preparación { background: #fff4e6; color: #d9480f; }
+.e-En-camino { background: #f3f0ff; color: #5f3dc4; }
+.e-Entregado { background: #ebfbee; color: #2b8a3e; }
+
+.metricas { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.metrica { background: #f4f6f8; border-radius: 8px; padding: 8px 10px; }
+.metrica span { display: block; font-size: 12px; color: #52606d; }
+.metrica b { font-size: 20px; }
+
+.controles { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+button, select, input { font-size: 14px; padding: 6px 10px; border-radius: 6px; border: 1px solid #cbd2d9; background: #fff; }
+button { cursor: pointer; background: #1971c2; color: #fff; border: none; }
+button.secundario { background: #868e96; }
+button:hover { opacity: .9; }
+
+.log { font-family: Consolas, monospace; font-size: 12px; background: #1f2933; color: #e4e7eb;
+       border-radius: 8px; padding: 10px; height: 260px; overflow-y: auto; margin-top: 12px; }
+.log div { white-space: pre-wrap; }
+.log .vacio { color: #9aa5b1; }
+.log .dato { color: #8ce99a; }
+.log .info { color: #74c0fc; }
+.conexion { font-weight: 600; }
+.conexion.on { color: #2b8a3e; }
+.conexion.off { color: #c92a2a; }
