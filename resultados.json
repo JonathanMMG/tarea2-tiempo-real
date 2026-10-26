@@ -1,0 +1,58 @@
+{
+  "fecha": "2026-10-26T01:59:24.676Z",
+  "node": "v22.23.3",
+  "faseCambiosSeg": 60,
+  "faseSinCambiosSeg": 30,
+  "cambiosCadaSeg": 10,
+  "cambiosRealizados": 5,
+  "resultados": [
+    {
+      "Mecanismo": "Polling 1 s",
+      "F1 solicitudes": 67,
+      "F1 con cambios": 6,
+      "F1 vacías (204)": 61,
+      "F1 % innecesarias": "91 %",
+      "Cambios detectados": 5,
+      "Retraso prom. (ms)": 602,
+      "Retraso máx. (ms)": 922,
+      "Bytes datos F1": 4257,
+      "F2 solicitudes (sin cambios)": 30
+    },
+    {
+      "Mecanismo": "Polling 2 s",
+      "F1 solicitudes": 34,
+      "F1 con cambios": 6,
+      "F1 vacías (204)": 28,
+      "F1 % innecesarias": "82 %",
+      "Cambios detectados": 5,
+      "Retraso prom. (ms)": 1297,
+      "Retraso máx. (ms)": 1888,
+      "Bytes datos F1": 4257,
+      "F2 solicitudes (sin cambios)": 15
+    },
+    {
+      "Mecanismo": "Polling 5 s",
+      "F1 solicitudes": 14,
+      "F1 con cambios": 6,
+      "F1 vacías (204)": 8,
+      "F1 % innecesarias": "57 %",
+      "Cambios detectados": 5,
+      "Retraso prom. (ms)": 1830,
+      "Retraso máx. (ms)": 3497,
+      "Bytes datos F1": 4257,
+      "F2 solicitudes (sin cambios)": 6
+    },
+    {
+      "Mecanismo": "WebSocket",
+      "F1 solicitudes": "6 mensajes",
+      "F1 con cambios": 5,
+      "F1 vacías (204)": 0,
+      "F1 % innecesarias": "0 %",
+      "Cambios detectados": 5,
+      "Retraso prom. (ms)": 0,
+      "Retraso máx. (ms)": 0,
+      "Bytes datos F1": 1505,
+      "F2 solicitudes (sin cambios)": "0 mensajes (+3 ping de control en total)"
+    }
+  ]
+}
